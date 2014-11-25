@@ -3,14 +3,22 @@
 $Application: FS2_Open
 $On Game Init:
 [
+local exts = {
+	"",
+	".lua",
+	".lc"
+}
+
 local function cfileLoader(name)
 	local file = nil
 	
-	file = cf.openFile(name, "rb", "data/scripts")
-	
-	if (not file:isValid()) then
-		file = cf.openFile(name .. ".lua", "r", "data/scripts")
-		name = name .. ".lua"
+	for ext in exts do
+		file = cf.openFile(name .. ext, "r", "data/scripts")
+		
+		if (file:isValid()) then
+			name = name .. ext
+			break;
+		end
 	end
 	
 	if (file == nil or not file:isValid()) then
