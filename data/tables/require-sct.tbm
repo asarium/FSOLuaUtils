@@ -12,11 +12,11 @@ local exts = {
 local function cfileLoader(name)
 	local file = nil
 	
-	for ext in exts do
-		file = cf.openFile(name .. ext, "r", "data/scripts")
+	for i,v in ipairs(exts) do
+		file = cf.openFile(name .. v, "r", "data/scripts")
 		
 		if (file:isValid()) then
-			name = name .. ext
+			name = name .. v
 			break;
 		end
 	end
