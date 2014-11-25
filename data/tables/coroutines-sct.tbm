@@ -1,0 +1,23 @@
+#Conditional Hooks
+
+$Application: FS2_Open
+$On Game Init:
+[
+local fsoCor = nil
+function coroutineDispatcher()
+	if not fsoCor and cfileRequireInitialized then
+		fsoCor = require("fsoCoroutine")
+	end
+	
+	fsoCor.dispatcher()
+end
+]
+
+$On Frame:
+[
+if coroutineDispatcher then
+	coroutineDispatcher()
+end
+]
+
+#End

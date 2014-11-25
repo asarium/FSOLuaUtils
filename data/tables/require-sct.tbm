@@ -1,0 +1,36 @@
+#Conditional Hooks
+
+$Application: FS2_Open
+$On Game Init:
+[
+local function cfileLoader(name)
+	local file = nil
+	
+	file = cf.openFile(name, "rb", "data/scripts")
+	
+	if (not file:isValid()) then
+		file = cf.openFile(name .. ".lua", "r", "data/scripts")
+		name = name .. ".lua"
+	end
+	
+	if (file == nil or not file:isValid()) then
+		return "Module '" .. name .. "' is not known by the CFile system"
+	end
+	
+	local content = file:read("*a")
+	file:close()
+	
+	local func, err = loadstring(content, name)
+	
+	if err then
+		return err
+	end
+	
+	return func
+end
+
+table.insert(package.loaders, 2, cfileLoader)
+cfileRequireInitialized = true
+]
+
+#End
