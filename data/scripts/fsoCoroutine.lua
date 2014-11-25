@@ -39,9 +39,10 @@ function module.dispatcher()
 			-- Thread is done
 			table.remove(threads, i)
 		elseif not status then
-			ba.warning("Resuming coroutine failed:\n" .. tostring(err))
 			-- Thread caused an error
 			table.remove(threads, i)
+			
+			ba.error("Error in coroutine:\n" .. tostring(err))
 		end
 	end
 end
